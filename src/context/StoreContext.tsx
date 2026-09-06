@@ -1,7 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { User, onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
-import { auth, googleProvider } from '../lib/firebase.ts';
-import { fetchApi, getSessionToken } from '../lib/api.ts';
+import { fetchApi, getSessionToken, setAuthToken, clearAuthToken, hasAuthToken } from '../lib/api.ts';
 import {
   Product,
   CartState,
@@ -35,9 +33,8 @@ interface StoreContextType {
 
   // Auth
   user: UserProfile | null;
-  firebaseUser: User | null;
   isAuthLoading: boolean;
-  signInWithGoogle: () => Promise<void>;
+  signIn: () => Promise<void>;
   signOutUser: () => Promise<void>;
   toggleAdminRole: () => Promise<void>;
 
@@ -92,7 +89,6 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const [viewParams, setViewParams] = useState<Record<string, any>>({});
 
   // Auth
-  const [firebaseUser, setFirebaseUser] = useState<User | null>(null);
   const [user, setUser] = useState<UserProfile | null>(null);
   const [isAuthLoading, setIsAuthLoading] = useState(true);
 
@@ -177,7 +173,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
 
   // Fetch Wishlist
   const fetchWishlist = useCallback(async () => {
-    if (!firebaseUser) {
+    if (!user) {
       setWishlist([]);
       return;
     }
@@ -190,50 +186,50 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setIsWishlistLoading(false);
     }
-  }, [firebaseUser]);
+  }, [user]);
 
   // Auth observer
   useEffect(() => {
     refreshSettings();
     fetchCart();
 
-    const unsubscribe = onAuthStateChanged(auth, async (fbUser) => {
-      setFirebaseUser(fbUser);
-      if (fbUser) {
-        await fetchUserProfile();
-        // Merge guest cart on login
+    if (hasAuthToken()) {
+      fetchUserProfile().then(async () => {
         try {
-          const sessionToken = getSessionToken();
           await fetchApi('/api/cart/merge', {
             method: 'POST',
-            body: JSON.stringify({ sessionToken }),
+            body: JSON.stringify({ sessionToken: getSessionToken() }),
           });
         } catch {}
         await fetchCart();
         await fetchWishlist();
-      } else {
-        setUser(null);
-        setWishlist([]);
-        fetchCart();
-      }
+      }).finally(() => setIsAuthLoading(false));
+    } else {
       setIsAuthLoading(false);
-    });
-
-    return () => unsubscribe();
+    }
   }, [refreshSettings, fetchUserProfile, fetchCart, fetchWishlist]);
 
-  // Sign In with Google
-  const signInWithGoogle = async () => {
+  // Sign in with a local application account.
+  const signIn = async () => {
     try {
       setIsAuthLoading(true);
-      const result = await signInWithPopup(auth, googleProvider);
-      if (result.user) {
-        addToast(`Welcome back, ${result.user.displayName || 'Customer'}!`, 'success');
-        await fetchUserProfile();
-      }
+      const email = window.prompt('Enter your email address');
+      if (!email) return;
+      const name = window.prompt('Enter your name') || email.split('@')[0];
+      const password = window.prompt('Enter a password (at least 8 characters)');
+      if (!password) return;
+      const result = await fetchApi<{ token: string }>('/api/auth/login', {
+        method: 'POST',
+        body: JSON.stringify({ email, name, password }),
+      });
+      setAuthToken(result.token);
+      await fetchUserProfile();
+      await fetchWishlist();
+      await fetchCart();
+      addToast('Signed in successfully.', 'success');
     } catch (err: any) {
-      console.error('Google Sign In Error:', err);
-      addToast(err.message || 'Failed to sign in with Google', 'error');
+      console.error('Sign In Error:', err);
+      addToast(err.message || 'Failed to sign in', 'error');
     } finally {
       setIsAuthLoading(false);
     }
@@ -242,9 +238,8 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   // Sign Out
   const signOutUser = async () => {
     try {
-      await signOut(auth);
+      clearAuthToken();
       setUser(null);
-      setFirebaseUser(null);
       addToast('You have been signed out.', 'info');
       navigateTo('home');
       fetchCart();
@@ -373,9 +368,9 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
 
   // Toggle Wishlist
   const toggleWishlist = async (product: Product | { id: number; name: string }) => {
-    if (!firebaseUser) {
+    if (!user) {
       addToast('Please sign in to save items to your wishlist', 'info');
-      signInWithGoogle();
+      signIn();
       return;
     }
 
@@ -421,9 +416,8 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         viewParams,
         navigateTo,
         user,
-        firebaseUser,
         isAuthLoading,
-        signInWithGoogle,
+        signIn,
         signOutUser,
         toggleAdminRole,
         cart,

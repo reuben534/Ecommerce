@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { db } from '../../db/index.ts';
 import { coupons } from '../../db/schema.ts';
-import { eq } from 'drizzle-orm';
+import { eq } from '../../db/index.ts';
 
 const router = Router();
 

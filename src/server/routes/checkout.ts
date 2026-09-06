@@ -1,7 +1,7 @@
 import { Router, Response } from 'express';
 import { db } from '../../db/index.ts';
 import { products, coupons } from '../../db/schema.ts';
-import { eq, inArray } from 'drizzle-orm';
+import { eq, inArray } from '../../db/index.ts';
 import { optionalAuth, AuthRequest } from '../../middleware/auth.ts';
 import { createPaymentReference } from '../payments.ts';
 
@@ -28,7 +28,7 @@ router.post('/create-intent', optionalAuth, async (req: AuthRequest, res: Respon
       .from(products)
       .where(inArray(products.id, productIds));
 
-    const productMap = new Map<number, typeof products.$inferSelect>();
+    const productMap = new Map<number, any>();
     dbProducts.forEach((p) => productMap.set(p.id, p));
 
     // 2. Validate stock and compute real subtotal

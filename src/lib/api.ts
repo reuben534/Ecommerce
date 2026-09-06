@@ -1,6 +1,17 @@
-import { auth } from './firebase.ts';
-
 const SESSION_KEY = 'aura_session_token';
+const AUTH_TOKEN_KEY = 'aura_auth_token';
+
+export function setAuthToken(token: string) {
+  localStorage.setItem(AUTH_TOKEN_KEY, token);
+}
+
+export function clearAuthToken() {
+  localStorage.removeItem(AUTH_TOKEN_KEY);
+}
+
+export function hasAuthToken() {
+  return Boolean(localStorage.getItem(AUTH_TOKEN_KEY));
+}
 
 export function getSessionToken(): string {
   let token = localStorage.getItem(SESSION_KEY);
@@ -21,16 +32,9 @@ export async function fetchApi<T = any>(
   const sessionToken = getSessionToken();
   headers.set('x-session-token', sessionToken);
 
-  // If user is authenticated in Firebase, retrieve current fresh ID token
-  if (auth?.currentUser) {
-    try {
-      const idToken = await auth.currentUser.getIdToken();
-      if (idToken) {
-        headers.set('Authorization', `Bearer ${idToken}`);
-      }
-    } catch (tokenErr) {
-      console.warn('Failed to get Firebase ID token:', tokenErr);
-    }
+  const authToken = localStorage.getItem(AUTH_TOKEN_KEY);
+  if (authToken) {
+    headers.set('Authorization', `Bearer ${authToken}`);
   }
 
   // Ensure JSON Content-Type if sending JSON body

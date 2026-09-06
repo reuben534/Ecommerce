@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { db } from '../../db/index.ts';
 import { categories, brands, products } from '../../db/schema.ts';
-import { eq, sql } from 'drizzle-orm';
+import { eq, sql } from '../../db/index.ts';
 import { requireAdmin } from '../../middleware/auth.ts';
 
 const router = Router();

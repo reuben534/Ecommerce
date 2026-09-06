@@ -1,5 +1,5 @@
 import { db } from './index.ts';
-import { eq } from 'drizzle-orm';
+import { eq } from './index.ts';
 import {
   products,
   categories,

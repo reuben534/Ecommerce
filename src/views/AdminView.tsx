@@ -342,7 +342,7 @@ export default function AdminView() {
               Control Plane
             </span>
             <span className="text-[10px] bg-amber-400/20 text-amber-300 border border-amber-400/30 px-2 py-0.5 rounded-full font-bold">
-              PostgreSQL Connected
+              MongoDB Connected
             </span>
           </div>
           <h1 className="text-3xl font-black text-white mt-1">Store Administration</h1>
@@ -540,7 +540,7 @@ export default function AdminView() {
               <div className="space-y-4 text-xs">
                 <div className="flex items-center justify-between p-3 rounded-xl bg-neutral-950 border border-neutral-800">
                   <span className="text-neutral-400">Database Engine</span>
-                  <span className="font-bold text-emerald-400">PostgreSQL (Drizzle ORM)</span>
+                  <span className="font-bold text-emerald-400">MongoDB (Mongoose)</span>
                 </div>
                 <div className="flex items-center justify-between p-3 rounded-xl bg-neutral-950 border border-neutral-800">
                   <span className="text-neutral-400">Payment Gateway</span>

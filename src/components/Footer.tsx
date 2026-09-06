@@ -245,7 +245,7 @@ export default function Footer() {
               Manual Payment
             </span>
             <span className="px-2 py-0.5 rounded border border-neutral-800 text-[10px] uppercase font-mono">
-              PostgreSQL
+              MongoDB
             </span>
             <span className="px-2 py-0.5 rounded border border-neutral-800 text-[10px] uppercase font-mono">
               256-Bit SSL

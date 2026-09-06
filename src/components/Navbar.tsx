@@ -21,7 +21,7 @@ export default function Navbar() {
     currentView,
     navigateTo,
     user,
-    signInWithGoogle,
+    signIn,
     signOutUser,
     toggleAdminRole,
     cart,
@@ -352,7 +352,7 @@ export default function Navbar() {
               ) : (
                 <button
                   id="nav-sign-in-btn"
-                  onClick={signInWithGoogle}
+                  onClick={signIn}
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white text-neutral-950 text-xs font-semibold hover:bg-neutral-200 transition-all"
                 >
                   <UserIcon className="w-3.5 h-3.5" />

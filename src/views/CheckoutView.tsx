@@ -19,7 +19,7 @@ export default function CheckoutView() {
   const {
     cart,
     user,
-    signInWithGoogle,
+    signIn,
     navigateTo,
     addToast,
     appliedCouponCode,
@@ -243,10 +243,10 @@ export default function CheckoutView() {
               {!user && (
                 <button
                   type="button"
-                  onClick={signInWithGoogle}
+                  onClick={signIn}
                   className="text-xs text-amber-400 hover:text-amber-300 font-semibold underline"
                 >
-                  Sign in with Google for faster checkout
+                  Sign in for faster checkout
                 </button>
               )}
             </div>

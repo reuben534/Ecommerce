@@ -9,7 +9,7 @@ import {
   users,
   storeSettings,
 } from '../../db/schema.ts';
-import { eq, desc, sql, and, gte, lte, ilike, or } from 'drizzle-orm';
+import { eq, desc, sql, and, gte, lte, ilike, or } from '../../db/index.ts';
 import { requireAdmin, AuthRequest } from '../../middleware/auth.ts';
 import { sendNotification } from '../notifications.ts';
 

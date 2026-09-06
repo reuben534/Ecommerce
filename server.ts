@@ -2,7 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import path from 'path';
 import { createServer as createViteServer } from 'vite';
-import { db } from './src/db/index.ts';
+import { connectMongo, db } from './src/db/index.ts';
 import { products } from './src/db/schema.ts';
 import { seedDatabase } from './src/db/seed.ts';
 
@@ -23,6 +23,8 @@ import authRouter from './src/server/routes/auth.ts';
 async function startServer() {
   const app = express();
   const PORT = 3000;
+
+  await connectMongo();
 
   app.use(express.json({ limit: '10mb' }));
   app.use(express.urlencoded({ extended: true }));

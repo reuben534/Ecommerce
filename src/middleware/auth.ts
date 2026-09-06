@@ -1,13 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
-import { adminAuth } from '../lib/firebase-admin.ts';
-import { DecodedIdToken } from 'firebase-admin/auth';
 import { db } from '../db/index.ts';
 import { users } from '../db/schema.ts';
-import { eq } from 'drizzle-orm';
+import { eq } from '../db/index.ts';
+import { AuthTokenPayload, verifyAuthToken } from '../server/auth-token.ts';
 
 export interface AuthRequest extends Request {
-  user?: DecodedIdToken;
-  dbUser?: typeof users.$inferSelect;
+  user?: AuthTokenPayload;
+  dbUser?: any;
 }
 
 export const requireAuth = async (
@@ -22,7 +21,10 @@ export const requireAuth = async (
 
   const token = authHeader.split('Bearer ')[1];
   try {
-    const decodedToken = await adminAuth.verifyIdToken(token);
+    const decodedToken = verifyAuthToken(token);
+    if (!decodedToken) {
+      return res.status(401).json({ error: 'Unauthorized: Invalid token' });
+    }
     req.user = decodedToken;
 
     // Get or upsert user in DB
@@ -53,7 +55,7 @@ export const requireAuth = async (
 
     next();
   } catch (error) {
-    console.error('Error verifying Firebase ID token:', error);
+    console.error('Error verifying auth token:', error);
     return res.status(401).json({ error: 'Unauthorized: Invalid token' });
   }
 };
@@ -70,7 +72,8 @@ export const optionalAuth = async (
 
   const token = authHeader.split('Bearer ')[1];
   try {
-    const decodedToken = await adminAuth.verifyIdToken(token);
+    const decodedToken = verifyAuthToken(token);
+    if (!decodedToken) return next();
     req.user = decodedToken;
 
     const existing = await db

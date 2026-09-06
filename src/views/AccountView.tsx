@@ -21,7 +21,7 @@ import {
 export default function AccountView() {
   const {
     user,
-    signInWithGoogle,
+    signIn,
     signOutUser,
     toggleAdminRole,
     navigateTo,
@@ -186,17 +186,17 @@ export default function AccountView() {
         <div>
           <h1 className="text-2xl font-black text-white">Customer Account</h1>
           <p className="text-xs text-neutral-400 mt-2 max-w-sm mx-auto">
-            Sign in with your Google account to access your personal order history, save addresses,
+            Sign in with your account to access your personal order history, save addresses,
             manage your wishlist, and track deliveries.
           </p>
         </div>
         <button
-          id="account-google-sign-in-btn"
-          onClick={signInWithGoogle}
+          id="account-sign-in-btn"
+          onClick={signIn}
           className="px-8 py-3.5 bg-white text-neutral-950 rounded-2xl font-bold text-xs uppercase tracking-wider hover:bg-neutral-200 transition-colors inline-flex items-center gap-2 shadow-xl"
         >
           <UserIcon className="w-4 h-4" />
-          <span>Sign In with Google</span>
+          <span>Sign In</span>
         </button>
       </div>
     );

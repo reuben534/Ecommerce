@@ -8,7 +8,7 @@ import {
   carts,
   cartItems,
 } from '../../db/schema.ts';
-import { eq, inArray, desc, and, or } from 'drizzle-orm';
+import { eq, inArray, desc, and, or } from '../../db/index.ts';
 import { optionalAuth, requireAuth, AuthRequest } from '../../middleware/auth.ts';
 import { sendNotification } from '../notifications.ts';
 
@@ -52,7 +52,7 @@ router.post('/', optionalAuth, async (req: AuthRequest, res: Response) => {
       .from(products)
       .where(inArray(products.id, productIds));
 
-    const productMap = new Map<number, typeof products.$inferSelect>();
+    const productMap = new Map<number, any>();
     dbProducts.forEach((p) => productMap.set(p.id, p));
 
     let subtotal = 0;
@@ -94,7 +94,7 @@ router.post('/', optionalAuth, async (req: AuthRequest, res: Response) => {
 
     // 2. Validate Coupon & Discount
     let discount = 0;
-    let couponToUpdate: typeof coupons.$inferSelect | null = null;
+    let couponToUpdate: any = null;
 
     if (couponCode) {
       const foundCoupons = await db

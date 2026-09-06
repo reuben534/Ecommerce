@@ -25,7 +25,7 @@ export default function ProductDetailView() {
     toggleWishlist,
     isInWishlist,
     user,
-    signInWithGoogle,
+    signIn,
     addToast,
   } = useStore();
 
@@ -176,7 +176,7 @@ export default function ProductDetailView() {
     e.preventDefault();
     if (!user) {
       addToast('Please sign in to submit a review', 'info');
-      signInWithGoogle();
+      signIn();
       return;
     }
 
