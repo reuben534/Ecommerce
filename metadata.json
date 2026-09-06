@@ -1,0 +1,6 @@
+{
+  "name": "E-Commerce Store",
+  "description": "A fully functional e-commerce platform with customer shopping, cart, wishlist, multi-step checkout, payments, order tracking, reviews, and a comprehensive admin management dashboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
