@@ -350,7 +350,7 @@ export default function ShopView() {
             <h4 className="text-xs font-bold text-neutral-300 uppercase tracking-wider">Price Range</h4>
             <div className="flex items-center gap-2">
               <div className="relative flex-1">
-                <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs text-neutral-500">$</span>
+                <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs text-neutral-500">R</span>
                 <input
                   type="number"
                   placeholder="Min"
@@ -361,7 +361,7 @@ export default function ShopView() {
               </div>
               <span className="text-neutral-600">-</span>
               <div className="relative flex-1">
-                <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs text-neutral-500">$</span>
+                <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs text-neutral-500">R</span>
                 <input
                   type="number"
                   placeholder="Max"

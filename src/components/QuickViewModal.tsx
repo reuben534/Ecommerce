@@ -153,11 +153,11 @@ export default function QuickViewModal() {
               {/* Price */}
               <div className="flex items-baseline gap-3">
                 <span className="text-2xl font-black text-white">
-                  ${salePrice ? salePrice.toFixed(2) : price.toFixed(2)}
+                    R{salePrice ? salePrice.toFixed(2) : price.toFixed(2)}
                 </span>
                 {salePrice && (
                   <span className="text-sm text-neutral-500 line-through">
-                    ${price.toFixed(2)}
+                      R{price.toFixed(2)}
                   </span>
                 )}
               </div>

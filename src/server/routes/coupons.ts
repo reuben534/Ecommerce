@@ -50,7 +50,7 @@ router.post('/validate', async (req: Request, res: Response) => {
     const minOrder = Number(coupon.minOrderAmount || 0);
     if (orderSubtotal < minOrder) {
       return res.status(400).json({
-        error: `Minimum order amount of $${minOrder.toFixed(2)} required to apply this coupon.`,
+        error: `Minimum order amount of R${minOrder.toFixed(2)} required to apply this coupon.`,
       });
     }
 

@@ -89,7 +89,7 @@ export default function CartDrawer() {
                   </span>
                 ) : (
                   <span>
-                    Add <strong className="text-white">${remainingForFree.toFixed(2)}</strong> more for Free Shipping
+                    Add <strong className="text-white">R{remainingForFree.toFixed(2)}</strong> more for Free Shipping
                   </span>
                 )}
               </span>
@@ -198,11 +198,11 @@ export default function CartDrawer() {
 
                       <div className="text-right">
                         <div className="text-xs font-bold text-white">
-                          ${item.lineTotal.toFixed(2)}
+                          R{item.lineTotal.toFixed(2)}
                         </div>
                         {item.quantity > 1 && (
                           <div className="text-[10px] text-neutral-500">
-                            ${item.price.toFixed(2)} each
+                            R{item.price.toFixed(2)} each
                           </div>
                         )}
                       </div>
@@ -222,7 +222,7 @@ export default function CartDrawer() {
                   <div className="flex items-center gap-2 text-amber-300">
                     <Tag className="w-3.5 h-3.5" />
                     <span className="font-semibold">{cart.appliedCoupon.code}</span>
-                    <span>(-${cart.appliedCoupon.discount.toFixed(2)})</span>
+                    <span>(-R{cart.appliedCoupon.discount.toFixed(2)})</span>
                   </div>
                   <button
                     onClick={removeCoupon}
@@ -256,12 +256,12 @@ export default function CartDrawer() {
               <div className="space-y-1.5 text-xs text-neutral-400">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
-                  <span className="text-white font-medium">${cart.subtotal.toFixed(2)}</span>
+                  <span className="text-white font-medium">R{cart.subtotal.toFixed(2)}</span>
                 </div>
                 {cart.discount > 0 && (
                   <div className="flex justify-between text-emerald-400">
                     <span>Discount</span>
-                    <span>-${cart.discount.toFixed(2)}</span>
+                    <span>-R{cart.discount.toFixed(2)}</span>
                   </div>
                 )}
                 <div className="flex justify-between">
@@ -270,17 +270,17 @@ export default function CartDrawer() {
                     {cart.shippingCost === 0 ? (
                       <span className="text-emerald-400 font-semibold">FREE</span>
                     ) : (
-                      `$${cart.shippingCost.toFixed(2)}`
+                      `R${cart.shippingCost.toFixed(2)}`
                     )}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span>Estimated Tax</span>
-                  <span className="text-white font-medium">${cart.tax.toFixed(2)}</span>
+                  <span className="text-white font-medium">R{cart.tax.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-sm font-black text-white pt-2 border-t border-neutral-800">
                   <span>Total</span>
-                  <span>${cart.total.toFixed(2)}</span>
+                  <span>R{cart.total.toFixed(2)}</span>
                 </div>
               </div>
 

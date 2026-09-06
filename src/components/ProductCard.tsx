@@ -101,11 +101,11 @@ export default function ProductCard({ product, listView = false }: ProductCardPr
           <div className="pt-2 flex items-center justify-between flex-wrap gap-4">
             <div className="flex items-baseline gap-2">
               <span className="text-lg font-black text-white">
-                ${salePrice ? salePrice.toFixed(2) : price.toFixed(2)}
+                R{salePrice ? salePrice.toFixed(2) : price.toFixed(2)}
               </span>
               {salePrice && (
                 <span className="text-xs text-neutral-500 line-through">
-                  ${price.toFixed(2)}
+                  R{price.toFixed(2)}
                 </span>
               )}
             </div>
@@ -249,11 +249,11 @@ export default function ProductCard({ product, listView = false }: ProductCardPr
         <div className="pt-2 flex items-baseline justify-between border-t border-neutral-800/60">
           <div className="flex items-baseline gap-2">
             <span className="text-base font-black text-white">
-              ${salePrice ? salePrice.toFixed(2) : price.toFixed(2)}
+              R{salePrice ? salePrice.toFixed(2) : price.toFixed(2)}
             </span>
             {salePrice && (
               <span className="text-xs text-neutral-500 line-through">
-                ${price.toFixed(2)}
+                R{price.toFixed(2)}
               </span>
             )}
           </div>

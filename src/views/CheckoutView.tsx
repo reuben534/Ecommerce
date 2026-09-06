@@ -444,7 +444,7 @@ export default function CheckoutView() {
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-white">Standard Express</span>
                   <span className="text-xs font-black text-amber-400">
-                    {cart.shippingCost === 0 ? 'FREE' : `$${cart.shippingCost.toFixed(2)}`}
+                    {cart.shippingCost === 0 ? 'FREE' : `R${cart.shippingCost.toFixed(2)}`}
                   </span>
                 </div>
                 <p className="text-[11px] text-neutral-400 mt-1">
@@ -462,7 +462,7 @@ export default function CheckoutView() {
               >
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-white">Priority Overnight</span>
-                  <span className="text-xs font-black text-amber-400">$28.00</span>
+                  <span className="text-xs font-black text-amber-400">R28.00</span>
                 </div>
                 <p className="text-[11px] text-neutral-400 mt-1">
                   Guaranteed 1–2 business days dispatch
@@ -597,7 +597,7 @@ export default function CheckoutView() {
                     </div>
                   </div>
                   <span className="font-mono font-bold text-white">
-                    ${it.lineTotal.toFixed(2)}
+                    R{it.lineTotal.toFixed(2)}
                   </span>
                 </div>
               ))}
@@ -607,27 +607,27 @@ export default function CheckoutView() {
             <div className="space-y-2 text-xs text-neutral-400 pt-4 border-t border-neutral-800">
               <div className="flex justify-between">
                 <span>Subtotal</span>
-                <span className="text-white font-medium">${cart.subtotal.toFixed(2)}</span>
+                <span className="text-white font-medium">R{cart.subtotal.toFixed(2)}</span>
               </div>
               {cart.discount > 0 && (
                 <div className="flex justify-between text-emerald-400">
                   <span>Discount</span>
-                  <span>-${cart.discount.toFixed(2)}</span>
+                  <span>-R{cart.discount.toFixed(2)}</span>
                 </div>
               )}
               <div className="flex justify-between">
                 <span>Shipping ({shippingMethod})</span>
                 <span className="text-white font-medium">
-                  {shippingCost === 0 ? 'FREE' : `$${shippingCost.toFixed(2)}`}
+                  {shippingCost === 0 ? 'FREE' : `R${shippingCost.toFixed(2)}`}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span>Tax</span>
-                <span className="text-white font-medium">${cart.tax.toFixed(2)}</span>
+                <span className="text-white font-medium">R{cart.tax.toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-lg font-black text-white pt-3 border-t border-neutral-800">
                 <span>Grand Total</span>
-                <span className="text-amber-400">${grandTotal.toFixed(2)}</span>
+                <span className="text-amber-400">R{grandTotal.toFixed(2)}</span>
               </div>
             </div>
 
@@ -637,7 +637,7 @@ export default function CheckoutView() {
               disabled={isProcessing}
               className="w-full py-4 rounded-2xl bg-white hover:bg-neutral-200 text-neutral-950 font-black text-xs uppercase tracking-widest flex items-center justify-center gap-2 transition-all shadow-xl shadow-white/10 disabled:opacity-50"
             >
-              <span>{isProcessing ? 'Processing Order...' : `Pay $${grandTotal.toFixed(2)} & Place Order`}</span>
+              <span>{isProcessing ? 'Processing Order...' : `Pay R${grandTotal.toFixed(2)} & Place Order`}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>

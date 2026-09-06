@@ -141,7 +141,7 @@ export default function OrderConfirmationView() {
                     </div>
                   </div>
                   <span className="font-mono font-bold text-white">
-                    ${Number(it.lineTotal).toFixed(2)}
+                        R{Number(it.lineTotal).toFixed(2)}
                   </span>
                 </div>
               ))}
@@ -149,7 +149,7 @@ export default function OrderConfirmationView() {
 
             <div className="pt-4 border-t border-neutral-800/60 flex justify-between text-sm font-black text-white">
               <span>Total Paid</span>
-              <span className="text-amber-400">${Number(order.total).toFixed(2)}</span>
+              <span className="text-amber-400">R{Number(order.total).toFixed(2)}</span>
             </div>
           </div>
         )}

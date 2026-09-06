@@ -34,7 +34,7 @@ export default function Footer() {
               <div>
                 <h4 className="text-sm font-semibold text-white">Worldwide Express</h4>
                 <p className="text-xs text-neutral-400 mt-1 leading-relaxed">
-                  Complimentary tracked express shipping on all orders over $150.
+                  Complimentary tracked express shipping on all orders over R150.
                 </p>
               </div>
             </div>

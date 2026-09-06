@@ -316,11 +316,11 @@ export default function ProductDetailView() {
           <div className="p-4 rounded-2xl bg-neutral-900/60 border border-neutral-800 flex items-baseline justify-between">
             <div className="flex items-baseline gap-3">
               <span className="text-3xl font-black text-white">
-                ${salePrice ? salePrice.toFixed(2) : price.toFixed(2)}
+                R{salePrice ? salePrice.toFixed(2) : price.toFixed(2)}
               </span>
               {salePrice && (
                 <span className="text-base text-neutral-500 line-through">
-                  ${price.toFixed(2)}
+                  R{price.toFixed(2)}
                 </span>
               )}
             </div>
@@ -566,7 +566,7 @@ export default function ProductDetailView() {
         {/* Tab 3: Shipping */}
         {activeTab === 'shipping' && (
           <div className="max-w-2xl space-y-4 text-xs sm:text-sm text-neutral-300 leading-relaxed">
-            <h4 className="text-sm font-bold text-white">Complimentary Delivery on Orders $150+</h4>
+            <h4 className="text-sm font-bold text-white">Complimentary Delivery on Orders R150+</h4>
             <p>
               All orders are dispatched from our climate-controlled fulfillment centers within 24
               business hours. Domestic orders typically arrive in 2–4 business days via FedEx Express.

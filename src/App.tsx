@@ -10,6 +10,7 @@ import Footer from './components/Footer.tsx';
 import CartDrawer from './components/CartDrawer.tsx';
 import QuickViewModal from './components/QuickViewModal.tsx';
 import Toast from './components/Toast.tsx';
+import AuthModal from './components/AuthModal.tsx';
 
 // Views
 import HomeView from './views/HomeView.tsx';
@@ -65,6 +66,7 @@ export default function App() {
         <CartDrawer />
         <QuickViewModal />
         <Toast />
+        <AuthModal />
       </div>
     </StoreProvider>
   );

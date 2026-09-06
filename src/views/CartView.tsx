@@ -92,12 +92,12 @@ export default function CartView() {
                 <span className="text-emerald-400">Complimentary Express Shipping Unlocked!</span>
               ) : (
                 <span>
-                  Add <strong className="text-amber-400">${remaining.toFixed(2)}</strong> more to unlock Free Express Shipping
+                  Add <strong className="text-amber-400">R{remaining.toFixed(2)}</strong> more to unlock Free Express Shipping
                 </span>
               )}
             </div>
             <p className="text-[11px] text-neutral-400">
-              Orders over ${freeShippingThreshold} ship with expedited tracking
+              Orders over R{freeShippingThreshold} ship with expedited tracking
             </p>
           </div>
         </div>
@@ -145,7 +145,7 @@ export default function CartView() {
                         <p className="text-xs text-neutral-400 mt-0.5">{item.variantLabel}</p>
                       )}
                       <p className="text-xs text-neutral-500 font-mono mt-1">
-                        ${item.price.toFixed(2)} each
+                        R{item.price.toFixed(2)} each
                       </p>
                     </div>
                   </div>
@@ -173,7 +173,7 @@ export default function CartView() {
 
                     <div className="text-right min-w-[70px]">
                       <div className="text-sm font-black text-white">
-                        ${item.lineTotal.toFixed(2)}
+                        R{item.lineTotal.toFixed(2)}
                       </div>
                     </div>
 
@@ -218,7 +218,7 @@ export default function CartView() {
                 <div className="flex items-center gap-2 text-amber-300 font-medium">
                   <Tag className="w-4 h-4" />
                   <span>
-                    {cart.appliedCoupon.code} (-${cart.appliedCoupon.discount.toFixed(2)})
+                    {cart.appliedCoupon.code} (-R{cart.appliedCoupon.discount.toFixed(2)})
                   </span>
                 </div>
                 <button
@@ -251,12 +251,12 @@ export default function CartView() {
             <div className="space-y-2.5 text-xs text-neutral-400">
               <div className="flex justify-between">
                 <span>Subtotal</span>
-                <span className="text-white font-medium">${cart.subtotal.toFixed(2)}</span>
+                <span className="text-white font-medium">R{cart.subtotal.toFixed(2)}</span>
               </div>
               {cart.discount > 0 && (
                 <div className="flex justify-between text-emerald-400">
                   <span>Discount</span>
-                  <span>-${cart.discount.toFixed(2)}</span>
+                  <span>-R{cart.discount.toFixed(2)}</span>
                 </div>
               )}
               <div className="flex justify-between">
@@ -265,17 +265,17 @@ export default function CartView() {
                   {cart.shippingCost === 0 ? (
                     <span className="text-emerald-400 font-semibold">FREE</span>
                   ) : (
-                    `$${cart.shippingCost.toFixed(2)}`
+                    `R${cart.shippingCost.toFixed(2)}`
                   )}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span>Estimated Sales Tax (8%)</span>
-                <span className="text-white font-medium">${cart.tax.toFixed(2)}</span>
+                <span className="text-white font-medium">R{cart.tax.toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-base font-black text-white pt-3 border-t border-neutral-800">
                 <span>Estimated Total</span>
-                <span>${cart.total.toFixed(2)}</span>
+                <span>R{cart.total.toFixed(2)}</span>
               </div>
             </div>
 

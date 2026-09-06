@@ -858,7 +858,7 @@ export async function seedDatabase() {
   const couponData = [
     {
       code: 'WELCOME10',
-      description: '10% off your entire first order over $50',
+      description: '10% off your entire first order over R50',
       discountType: 'percentage',
       discountValue: '10.00',
       minOrderAmount: '50.00',
@@ -870,7 +870,7 @@ export async function seedDatabase() {
     },
     {
       code: 'SAVE25',
-      description: '$25 instant discount on orders over $150',
+      description: 'R25 instant discount on orders over R150',
       discountType: 'fixed',
       discountValue: '25.00',
       minOrderAmount: '150.00',
@@ -916,7 +916,7 @@ export async function seedDatabase() {
   // 5. Seed Store Settings
   const defaultSettings = [
     { key: 'store_name', value: 'AURA Minimal Goods' },
-    { key: 'announcement_bar', value: 'Complimentary worldwide express shipping on orders over $150 · Use code WELCOME10' },
+    { key: 'announcement_bar', value: 'Complimentary worldwide express shipping on orders over R150 · Use code WELCOME10' },
     { key: 'hero_title', value: 'Precision Craftsmanship for the Modern Space' },
     { key: 'hero_subtitle', value: 'Discover meticulously engineered audio equipment, workspace ergonomics, and minimalist design essentials built to endure.' },
     { key: 'hero_cta_text', value: 'Explore the Collection' },

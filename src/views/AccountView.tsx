@@ -364,7 +364,7 @@ export default function AccountView() {
 
                     <div className="flex items-center gap-3">
                       <span className="text-base font-black text-white font-mono">
-                        ${Number(ord.total).toFixed(2)}
+                        R{Number(ord.total).toFixed(2)}
                       </span>
                       <button
                         onClick={() => navigateTo('tracking', { orderNumber: ord.orderNumber })}
@@ -394,7 +394,7 @@ export default function AccountView() {
                           </div>
                         </div>
                         <span className="font-mono text-neutral-300">
-                          ${Number(item.lineTotal).toFixed(2)}
+                          R{Number(item.lineTotal).toFixed(2)}
                         </span>
                       </div>
                     ))}
@@ -523,7 +523,7 @@ export default function AccountView() {
                         {item.name}
                       </h3>
                       <div className="text-sm font-black text-amber-400 mt-1 font-mono">
-                        ${item.price.toFixed(2)}
+                        R{item.price.toFixed(2)}
                       </div>
                       <span
                         className={`text-[10px] font-semibold ${

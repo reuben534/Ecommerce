@@ -113,7 +113,7 @@ export default function Navbar() {
         <span>
           {settings?.announcement_bar ||
             settings?.announcementBar ||
-            'Complimentary worldwide express delivery on orders over $150 · Use code WELCOME10'}
+            'Complimentary worldwide express delivery on orders over R150 · Use code WELCOME10'}
         </span>
       </div>
 
@@ -246,7 +246,7 @@ export default function Navbar() {
                           <div className="flex-1 min-w-0">
                             <div className="text-xs font-medium text-white truncate">{prod.name}</div>
                             <div className="text-[11px] text-amber-400">
-                              ${prod.salePrice || prod.price}
+                              R{prod.salePrice || prod.price}
                             </div>
                           </div>
                         </button>

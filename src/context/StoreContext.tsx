@@ -35,6 +35,9 @@ interface StoreContextType {
   user: UserProfile | null;
   isAuthLoading: boolean;
   signIn: () => Promise<void>;
+  submitSignIn: (details: { name: string; email: string; password: string }) => Promise<void>;
+  isAuthModalOpen: boolean;
+  closeAuthModal: () => void;
   signOutUser: () => Promise<void>;
   toggleAdminRole: () => Promise<void>;
 
@@ -91,6 +94,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   // Auth
   const [user, setUser] = useState<UserProfile | null>(null);
   const [isAuthLoading, setIsAuthLoading] = useState(true);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   // Cart
   const [cart, setCart] = useState<CartState | null>(null);
@@ -211,21 +215,21 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
 
   // Sign in with a local application account.
   const signIn = async () => {
+    setIsAuthModalOpen(true);
+  };
+
+  const submitSignIn = async (details: { name: string; email: string; password: string }) => {
     try {
       setIsAuthLoading(true);
-      const email = window.prompt('Enter your email address');
-      if (!email) return;
-      const name = window.prompt('Enter your name') || email.split('@')[0];
-      const password = window.prompt('Enter a password (at least 8 characters)');
-      if (!password) return;
       const result = await fetchApi<{ token: string }>('/api/auth/login', {
         method: 'POST',
-        body: JSON.stringify({ email, name, password }),
+        body: JSON.stringify(details),
       });
       setAuthToken(result.token);
       await fetchUserProfile();
       await fetchWishlist();
       await fetchCart();
+      setIsAuthModalOpen(false);
       addToast('Signed in successfully.', 'success');
     } catch (err: any) {
       console.error('Sign In Error:', err);
@@ -349,7 +353,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       if (validation.valid) {
         setAppliedCouponCode(cleanCode);
         await fetchCart(cleanCode);
-        addToast(`Coupon "${cleanCode}" applied! Saved $${validation.discount.toFixed(2)}`, 'success');
+        addToast(`Coupon "${cleanCode}" applied! Saved R${validation.discount.toFixed(2)}`, 'success');
         return true;
       }
       return false;
@@ -418,6 +422,9 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         user,
         isAuthLoading,
         signIn,
+        submitSignIn,
+        isAuthModalOpen,
+        closeAuthModal: () => setIsAuthModalOpen(false),
         signOutUser,
         toggleAdminRole,
         cart,

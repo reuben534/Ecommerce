@@ -450,7 +450,7 @@ export default function AdminView() {
                 <DollarSign className="w-4 h-4 text-emerald-400" />
               </div>
               <div className="text-2xl font-black text-white">
-                ${analytics.totalRevenue.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                R{analytics.totalRevenue.toLocaleString('en-US', { minimumFractionDigits: 2 })}
               </div>
               <div className="text-[11px] text-emerald-400 flex items-center gap-1 font-medium">
                 <ArrowUpRight className="w-3.5 h-3.5" />
@@ -473,7 +473,7 @@ export default function AdminView() {
                 <TrendingUp className="w-4 h-4 text-blue-400" />
               </div>
               <div className="text-2xl font-black text-white">
-                ${analytics.averageOrderValue.toFixed(2)}
+                R{analytics.averageOrderValue.toFixed(2)}
               </div>
               <div className="text-[11px] text-neutral-400">Per paying transaction</div>
             </div>
@@ -524,7 +524,7 @@ export default function AdminView() {
                       />
                     </div>
                     <span className="w-24 text-right font-mono font-bold text-white">
-                      ${day.revenue.toFixed(2)}
+                      R{day.revenue.toFixed(2)}
                     </span>
                   </div>
                 ))}
@@ -626,10 +626,10 @@ export default function AdminView() {
                       <td className="py-3 px-4 text-neutral-300">{prod.category}</td>
 
                       <td className="py-3 px-4 font-mono font-bold text-white">
-                        ${Number(prod.salePrice || prod.price).toFixed(2)}
+                        R{Number(prod.salePrice || prod.price).toFixed(2)}
                         {prod.salePrice && (
                           <span className="text-[10px] text-neutral-500 line-through ml-1.5">
-                            ${Number(prod.price).toFixed(2)}
+                            R{Number(prod.price).toFixed(2)}
                           </span>
                         )}
                       </td>
@@ -757,7 +757,7 @@ export default function AdminView() {
                     </td>
 
                     <td className="py-3 px-4 font-mono font-bold text-white">
-                      ${Number(ord.total).toFixed(2)}
+                      R{Number(ord.total).toFixed(2)}
                     </td>
 
                     <td className="py-3 px-4">
@@ -922,11 +922,11 @@ export default function AdminView() {
                     <strong className="text-white">
                       {cpn.discountType === 'percentage'
                         ? `${cpn.discountValue}% OFF`
-                        : `$${cpn.discountValue} OFF`}
+                        : `R${cpn.discountValue} OFF`}
                     </strong>
                   </div>
                   <div className="text-neutral-500">
-                    Min Spend: ${Number(cpn.minSpend).toFixed(2)} · Uses: {cpn.usedCount}
+                    Min Spend: R{Number(cpn.minSpend).toFixed(2)} · Uses: {cpn.usedCount}
                   </div>
                 </div>
 

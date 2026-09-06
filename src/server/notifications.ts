@@ -15,7 +15,7 @@ export async function sendNotification(payload: NotificationPayload) {
   switch (type) {
     case 'order_confirmed':
       subject = `Order Confirmed #${data.orderNumber} - Thank you for your purchase!`;
-      preview = `We are preparing your order of ${data.itemCount || 1} item(s) for a total of $${data.total}.`;
+      preview = `We are preparing your order of ${data.itemCount || 1} item(s) for a total of R${data.total}.`;
       break;
     case 'order_shipped':
       subject = `Your Order #${data.orderNumber} Has Shipped!`;
@@ -23,7 +23,7 @@ export async function sendNotification(payload: NotificationPayload) {
       break;
     case 'order_cancelled':
       subject = `Order #${data.orderNumber} Has Been Cancelled`;
-      preview = `Your order has been cancelled and a refund of $${data.total} has been issued.`;
+      preview = `Your order has been cancelled and a refund of R${data.total} has been issued.`;
       break;
     case 'welcome':
       subject = `Welcome to AURA Minimal Goods!`;
