@@ -3,11 +3,11 @@ import { db } from '../../db/index.ts';
 import { products, coupons } from '../../db/schema.ts';
 import { eq, inArray } from 'drizzle-orm';
 import { optionalAuth, AuthRequest } from '../../middleware/auth.ts';
-import { processPayment } from '../stripe.ts';
+import { createPaymentReference } from '../payments.ts';
 
 const router = Router();
 
-// Create Payment Intent or test session
+// Create a local payment reference after validating the cart totals.
 router.post('/create-intent', optionalAuth, async (req: AuthRequest, res: Response) => {
   try {
     const {
@@ -15,7 +15,6 @@ router.post('/create-intent', optionalAuth, async (req: AuthRequest, res: Respon
       couponCode,
       shippingMethod = 'standard',
       customerEmail,
-      isMock = false,
     } = req.body;
 
     if (!items || !Array.isArray(items) || items.length === 0) {
@@ -87,22 +86,10 @@ router.post('/create-intent', optionalAuth, async (req: AuthRequest, res: Respon
     const tax = Number((taxableAmount * 0.085).toFixed(2));
     const total = Number((taxableAmount + shippingCost + tax).toFixed(2));
 
-    // 6. Create Stripe / Test Payment Intent
-    const paymentResult = await processPayment({
-      amount: total * 100, // cents
-      currency: 'usd',
-      customerEmail: customerEmail || req.user?.email,
-      isMock,
-    });
-
-    if (!paymentResult.success) {
-      return res.status(400).json({ error: paymentResult.error });
-    }
-
     res.json({
-      clientSecret: paymentResult.clientSecret,
-      paymentIntentId: paymentResult.paymentIntentId,
-      mode: paymentResult.mode,
+      paymentReference: createPaymentReference(),
+      mode: 'manual_payment',
+      paymentStatus: 'pending',
       summary: {
         subtotal: Number(subtotal.toFixed(2)),
         discount: Number(discount.toFixed(2)),

@@ -44,9 +44,8 @@ export default function CheckoutView() {
 
   // Payment
   const [paymentMethod, setPaymentMethod] = useState<'card' | 'cod'>('card');
-  const [cardNumber, setCardNumber] = useState('');
-  const [cardExpiry, setCardExpiry] = useState('');
-  const [cardCvc, setCardCvc] = useState('');
+  const [cardBrand, setCardBrand] = useState('Visa');
+  const [cardLast4, setCardLast4] = useState('');
   const [cardName, setCardName] = useState('');
 
   const [isProcessing, setIsProcessing] = useState(false);
@@ -105,11 +104,10 @@ export default function CheckoutView() {
   };
 
   const handleFillDemoCard = () => {
-    setCardNumber('4242 •••• •••• 4242');
-    setCardExpiry('12/28');
-    setCardCvc('123');
+    setCardBrand('Visa');
+    setCardLast4('4242');
     setCardName(fullName || 'Alex Mercer');
-    addToast('Demo Stripe test card credentials entered', 'info');
+    addToast('Demo card metadata entered', 'info');
   };
 
   const shippingCost = shippingMethod === 'priority' ? 28 : cart.shippingCost;
@@ -127,29 +125,39 @@ export default function CheckoutView() {
       return;
     }
 
-    if (paymentMethod === 'card' && (!cardNumber.trim() || !cardExpiry.trim() || !cardCvc.trim())) {
-      addToast('Please enter your payment card details (or click Fill Demo Card)', 'error');
+    if (paymentMethod === 'card' && !/^\d{4}$/.test(cardLast4.trim())) {
+      addToast('Please enter the last four digits of your card', 'error');
       return;
     }
 
     setIsProcessing(true);
 
     try {
-      // 1. Create Payment Intent (or test authorization)
+      const items = cart.items.map((item) => ({
+        productId: item.productId,
+        quantity: item.quantity,
+        variantId: item.variantId,
+        variantLabel: item.variantLabel,
+      }));
+
+      // 1. Create a local payment reference. No card number or security code is sent.
       const paymentIntentRes = await fetchApi<{
-        clientSecret: string;
-        paymentIntentId: string;
-      }>('/api/checkout/create-payment-intent', {
+        paymentReference: string;
+      }>('/api/checkout/create-intent', {
         method: 'POST',
         body: JSON.stringify({
-          amount: Math.round(grandTotal * 100),
-          currency: 'usd',
+          items,
           couponCode: appliedCouponCode || undefined,
+          shippingMethod,
+          customerEmail: email,
         }),
       });
 
-      // 2. Place actual order in Postgres database (validates inventory, locks items, generates order #)
+      // 2. Save the order and non-sensitive payment metadata.
       const orderPayload = {
+        customerName: fullName,
+        customerEmail: email,
+        customerPhone: phone,
         shippingAddress: {
           fullName,
           phone,
@@ -169,28 +177,27 @@ export default function CheckoutView() {
           country,
         },
         paymentMethod: paymentMethod === 'card' ? 'credit_card' : 'cash_on_delivery',
-        paymentIntentId: paymentIntentRes.paymentIntentId,
-        paymentStatus: 'paid',
-        shippingMethod: shippingMethod === 'priority' ? 'Priority Overnight' : 'Standard Express',
-        shippingCost,
+        paymentReference: paymentIntentRes.paymentReference,
+        paymentCardBrand: paymentMethod === 'card' ? cardBrand : undefined,
+        paymentCardLast4: paymentMethod === 'card' ? cardLast4 : undefined,
+        items,
         couponCode: appliedCouponCode || undefined,
-        customerNotes: `Contact: ${email} | Phone: ${phone}`,
-        saveAddress: saveAddressToAccount,
+        shippingMethod: shippingMethod === 'priority' ? 'express' : 'standard',
+        notes: `Contact: ${email} | Phone: ${phone}`,
+        sessionToken: window.localStorage.getItem('aura_session_token') || undefined,
       };
 
       const result = await fetchApi<{
         success: boolean;
-        orderNumber: string;
-        orderId: number;
-        total: number;
-      }>('/api/checkout/place-order', {
+        order: { orderNumber: string };
+      }>('/api/orders', {
         method: 'POST',
         body: JSON.stringify(orderPayload),
       });
 
       if (result.success) {
-        addToast(`Order ${result.orderNumber} confirmed!`, 'success');
-        navigateTo('order-confirmation', { orderNumber: result.orderNumber });
+        addToast(`Order ${result.order.orderNumber} received!`, 'success');
+        navigateTo('order-confirmation', { orderNumber: result.order.orderNumber });
       } else {
         throw new Error('Could not finalize order.');
       }
@@ -480,7 +487,7 @@ export default function CheckoutView() {
                 className="text-xs font-bold text-amber-400 hover:text-amber-300 flex items-center gap-1 bg-amber-400/10 px-2.5 py-1 rounded-lg border border-amber-400/20 transition-colors"
               >
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>Fill Test Card</span>
+                    <span>Fill Demo Details</span>
               </button>
             </div>
 
@@ -516,14 +523,13 @@ export default function CheckoutView() {
               <div className="p-4 rounded-2xl bg-neutral-950 border border-neutral-800 space-y-3 pt-4">
                 <div>
                   <label className="text-xs font-semibold text-neutral-300 block mb-1">
-                    Card Number
+                    Card Brand
                   </label>
                   <input
                     type="text"
-                    required={paymentMethod === 'card'}
-                    placeholder="4242 4242 4242 4242"
-                    value={cardNumber}
-                    onChange={(e) => setCardNumber(e.target.value)}
+                    placeholder="Visa"
+                    value={cardBrand}
+                    onChange={(e) => setCardBrand(e.target.value)}
                     className="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-xs text-white font-mono focus:outline-none focus:border-amber-500"
                   />
                 </div>
@@ -531,28 +537,16 @@ export default function CheckoutView() {
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   <div>
                     <label className="text-xs font-semibold text-neutral-300 block mb-1">
-                      Expires (MM/YY)
+                      Last Four Digits
                     </label>
                     <input
                       type="text"
                       required={paymentMethod === 'card'}
-                      placeholder="12/28"
-                      value={cardExpiry}
-                      onChange={(e) => setCardExpiry(e.target.value)}
-                      className="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-xs text-white font-mono focus:outline-none focus:border-amber-500"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-xs font-semibold text-neutral-300 block mb-1">
-                      CVC / CVV
-                    </label>
-                    <input
-                      type="text"
-                      required={paymentMethod === 'card'}
-                      placeholder="123"
-                      value={cardCvc}
-                      onChange={(e) => setCardCvc(e.target.value)}
+                      inputMode="numeric"
+                      maxLength={4}
+                      placeholder="4242"
+                      value={cardLast4}
+                      onChange={(e) => setCardLast4(e.target.value.replace(/\D/g, '').slice(0, 4))}
                       className="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-xs text-white font-mono focus:outline-none focus:border-amber-500"
                     />
                   </div>
@@ -573,7 +567,7 @@ export default function CheckoutView() {
 
                 <div className="text-[11px] text-neutral-400 flex items-center gap-1.5 pt-1">
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>Stripe test integration enabled. No real charges will occur in sandbox.</span>
+                  <span>Only card brand and last four digits are saved. Full card details are never stored.</span>
                 </div>
               </div>
             )}

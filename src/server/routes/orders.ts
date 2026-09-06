@@ -33,8 +33,10 @@ router.post('/', optionalAuth, async (req: AuthRequest, res: Response) => {
       items,
       couponCode,
       shippingMethod = 'standard',
-      paymentMethod = 'stripe',
-      paymentIntentId,
+      paymentMethod = 'cash_on_delivery',
+      paymentReference,
+      paymentCardBrand,
+      paymentCardLast4,
       notes,
       sessionToken,
     } = req.body;
@@ -146,9 +148,13 @@ router.post('/', optionalAuth, async (req: AuthRequest, res: Response) => {
         total: total.toFixed(2),
         couponCode: couponToUpdate ? couponToUpdate.code : null,
         paymentMethod,
-        paymentStatus: 'paid', // verified payment
-        paymentIntentId: paymentIntentId || 'pi_simulated_' + Date.now(),
-        orderStatus: 'processing',
+        paymentStatus: paymentMethod === 'cash_on_delivery' ? 'pending' : 'pending',
+        paymentReference: paymentReference || null,
+        paymentCardBrand: paymentCardBrand || null,
+        paymentCardLast4: paymentCardLast4 && /^\d{4}$/.test(String(paymentCardLast4))
+          ? String(paymentCardLast4)
+          : null,
+        orderStatus: 'pending',
         trackingCarrier,
         trackingNumber,
         notes: notes || null,

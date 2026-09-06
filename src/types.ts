@@ -164,7 +164,9 @@ export interface Order {
   couponCode?: string | null;
   paymentMethod: string;
   paymentStatus: string;
-  paymentIntentId?: string | null;
+  paymentReference?: string | null;
+  paymentCardBrand?: string | null;
+  paymentCardLast4?: string | null;
   status: OrderStatus;
   orderStatus?: string;
   carrier?: string | null;

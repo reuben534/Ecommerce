@@ -70,7 +70,7 @@ export default function Footer() {
               <div>
                 <h4 className="text-sm font-semibold text-white">Encrypted Checkout</h4>
                 <p className="text-xs text-neutral-400 mt-1 leading-relaxed">
-                  Military-grade 256-bit SSL encryption powered by Stripe payment infrastructure.
+                  Secure checkout with card details kept out of our database.
                 </p>
               </div>
             </div>
@@ -242,7 +242,7 @@ export default function Footer() {
           </div>
           <div className="flex items-center gap-3 text-neutral-400">
             <span className="px-2 py-0.5 rounded border border-neutral-800 text-[10px] uppercase font-mono">
-              Stripe Verified
+              Manual Payment
             </span>
             <span className="px-2 py-0.5 rounded border border-neutral-800 text-[10px] uppercase font-mono">
               PostgreSQL

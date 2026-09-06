@@ -134,7 +134,9 @@ export const orders = pgTable('orders', {
   couponCode: text('coupon_code'),
   paymentMethod: text('payment_method').notNull(),
   paymentStatus: text('payment_status').notNull().default('pending'), // 'pending' | 'paid' | 'failed' | 'refunded'
-  paymentIntentId: text('payment_intent_id'),
+  paymentReference: text('payment_reference'),
+  paymentCardBrand: text('payment_card_brand'),
+  paymentCardLast4: text('payment_card_last4'),
   orderStatus: text('order_status').notNull().default('pending'), // 'pending' | 'paid' | 'processing' | 'shipped' | 'out_for_delivery' | 'delivered' | 'cancelled' | 'refunded'
   trackingNumber: text('tracking_number'),
   trackingCarrier: text('tracking_carrier'),

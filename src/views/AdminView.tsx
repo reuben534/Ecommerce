@@ -544,7 +544,7 @@ export default function AdminView() {
                 </div>
                 <div className="flex items-center justify-between p-3 rounded-xl bg-neutral-950 border border-neutral-800">
                   <span className="text-neutral-400">Payment Gateway</span>
-                  <span className="font-bold text-amber-400">Stripe Integration</span>
+                  <span className="font-bold text-amber-400">Manual Payment Recording</span>
                 </div>
                 <div className="flex items-center justify-between p-3 rounded-xl bg-neutral-950 border border-neutral-800">
                   <span className="text-neutral-400">Active SKUs</span>
