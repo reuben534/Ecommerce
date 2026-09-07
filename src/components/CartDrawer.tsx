@@ -222,7 +222,7 @@ export default function CartDrawer() {
                   <div className="flex items-center gap-2 text-amber-300">
                     <Tag className="w-3.5 h-3.5" />
                     <span className="font-semibold">{cart.appliedCoupon.code}</span>
-                    <span>(-R{cart.appliedCoupon.discount.toFixed(2)})</span>
+                              <span>(-R{cart.appliedCoupon.discount.toFixed(2)})</span>
                   </div>
                   <button
                     onClick={removeCoupon}

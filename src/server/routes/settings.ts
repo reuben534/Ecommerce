@@ -13,7 +13,7 @@ const defaultSettings: Record<string, string> = {
   heroTitle: 'Architectural Elegance for Modern Living',
   heroSubtitle: 'Curated minimalist goods crafted from pure ceramic, solid brass, and sustainably sourced woods.',
   contactEmail: 'concierge@auragoods.com',
-  contactPhone: '+1 (800) 555-0199',
+  contactPhone: '+27 (21) 555-0199',
   freeShippingThreshold: '150.00',
   currency: 'ZAR',
   currencySymbol: 'R',

@@ -227,9 +227,9 @@ export default function Footer() {
             <div className="space-y-2.5 text-xs text-neutral-400">
               <p>Monday – Friday, 9am – 6pm EST</p>
               <p className="text-white font-medium">concierge@auragoods.com</p>
-              <p className="text-white font-medium">+1 (800) 555-0199</p>
+              <p className="text-white font-medium">+27 (21) 555-0199</p>
               <div className="pt-2 text-neutral-500 text-[11px]">
-                Headquarters: 450 Madison Ave, New York, NY 10022
+                Headquarters: 450 Madison Ave, Centurion
               </div>
             </div>
           </div>
