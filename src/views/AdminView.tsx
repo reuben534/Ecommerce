@@ -926,7 +926,7 @@ export default function AdminView() {
                     </strong>
                   </div>
                   <div className="text-neutral-500">
-                    Min Spend: R{Number(cpn.minSpend).toFixed(2)} · Uses: {cpn.usedCount}
+                    Min Spend: R{Number(cpn.minOrderAmount || 0).toFixed(2)} · Uses: {cpn.usedCount}
                   </div>
                 </div>
 

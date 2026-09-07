@@ -117,6 +117,7 @@ export interface Address {
   userId?: number | null;
   userUid?: string;
   fullName: string;
+  label?: string;
   street?: string;
   addressLine1?: string;
   addressLine2?: string;
@@ -214,6 +215,7 @@ export interface UserProfile {
   uid: string;
   email: string;
   name: string;
+  phone?: string | null;
   role: 'user' | 'admin';
   avatar?: string | null;
   orderCount: number;
